@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>cuisine de caleb</title>
+<link rel="stylesheet" href="pro.css">
+</head>
+<body>
+
+<header>
+    <h1>🍽️ the bright kitchen</h1>
+    <p>Pour faire vibrer tous vos moments de joie</p>
+</header>
+
+<section class="menu">
+
+    <!-- SAMOUSSAS POULET -->
+    <div class="card">
+        <img src="Samoussa.jpg" alt="">
+        <h2>Samoussas Poulet</h2>
+
+        <label>
+            <input type="checkbox" data-prix="10" value="Samoussas Poulet 30 pièces non grillés - 10$">
+            30 pièces non grillés – 10$
+        </label>
+
+        <label>
+            <input type="checkbox" data-prix="10" value="Samoussas Poulet 25 pièces grillés - 10$">
+            25 pièces grillés – 10$
+        </label>
+    </div>
+
+    <!-- SAMOUSSAS VIANDE -->
+    <div class="card">
+        <img src="Beef Sambusa.jpg" alt="">
+        <h2>Samoussas Viande</h2>
+
+        <label>
+            <input type="checkbox" data-prix="10" value="Samoussas Viande 25 pièces - 10$">
+            25 pièces – 10$
+        </label>
+    </div>
+
+    <!-- SHAWARMA -->
+    <div class="card">
+        <img src="Shawarma.jpg" alt="">
+        <h2>Chawarmas</h2>
+
+        <label>
+            <input type="checkbox" data-prix="3" value="Chawarma 6500 FC (≈3$)">
+            6500 FC – Très bonne qualité
+        </label>
+    </div>
+
+    <!-- MINI PIZZA -->
+    <div class="card">
+        <img src="Mini pizza.jpg" alt="">
+        <h2>Mini Pizzas</h2>
+
+        <label>
+            <input type="checkbox" data-prix="10" value="Mini Pizzas 15 pièces - 10$">
+            15 pièces – 10$
+        </label>
+    </div>
+
+</section>
+
+<h3 style="text-align:center;">Total Plats : <span id="total">0</span> $</h3>
+<h3 style="text-align:center;">Livraison : 5000 FC</h3>
+
+<section class="formulaire">
+    <h2>Vos informations</h2>
+
+    <input type="text" id="nom" placeholder="Nom" required>
+    <input type="text" id="postnom" placeholder="Post-nom" required>
+    <input type="text" id="numero" placeholder="Numéro de téléphone" required>
+    <input type="text" id="adresse" placeholder="Adresse complète" required>
+
+    <button onclick="envoyerCommande()">Commander</button>
+</section>
+
+<footer>
+    <p>📍 Adresse : 36 Ngatshie Q/ Masiala C/ Limeté</p>
+    <p>📲 WhatsApp : 0826392872</p>
+</footer>
+
+<script>
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+const totalElement = document.getElementById("total");
+const livraison = 5000;
+
+// Calcul automatique du total
+checkboxes.forEach(box => {
+    box.addEventListener("change", calculerTotal);
+});
+
+function calculerTotal() {
+    let total = 0;
+    checkboxes.forEach(box => {
+        if (box.checked) {
+            let prix = parseFloat(box.dataset.prix);
+            total += prix;
+        }
+    });
+    totalElement.textContent = total;
+}
+
+// Envoi WhatsApp
+function envoyerCommande() {
+    let choix = document.querySelectorAll('input[type="checkbox"]:checked');
+    if (choix.length === 0) {
+        alert("Veuillez choisir au moins un plat !");
+        return;
+    }
+
+    let liste = "";
+    let total = 0;
+
+    choix.forEach(box => {
+        let prix = parseFloat(box.dataset.prix);
+        total += prix;
+        liste += "- " + box.value + "%0A";
+    });
+
+    let nom = document.getElementById("nom").value;
+    let postnom = document.getElementById("postnom").value;
+    let numero = document.getElementById("numero").value;
+    let adresse = document.getElementById("adresse").value;
+
+    let message =
+        "Bonjour, j'aimerais commander :%0A" +
+        liste +
+        "%0A Total Plats : " + total + " $" +
+        "%0A Livraison : " + livraison + " FC" +
+        "%0A Nom : " + nom +
+        "%0A Post-nom : " + postnom +
+        "%0A Numéro : " + numero +
+        "%0A Adresse : " + adresse;
+
+    window.open("https://wa.me/243826392872?text=" + message);
+}
+</script>
+
+</body>
+</html>
